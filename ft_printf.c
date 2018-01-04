@@ -10,26 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "ft_printf.h"
 
 int ft_printf(const char *format, ...)
 {
-	t_pit pf;
-
-	pf.specifier = "sSpdDioOuUxXcC";
+	t_info		pf;
 
 	va_start(pf.ap, format);
-	while (*format)
-	{
-		if (*format == '%')
-//			check_specifier(format, pf);
-		else
-			write(1, format, 1);
-		format++;
-	}
+	start_initialization(&pf);
+//	while (*format)
+//	{
+//		if (*format == '%')
+//		{
+//			if (*(++format) == '%')
+//				write(1, "%", 1);
+//		}
+//		else
+//			write(1, format, 1);
+//		format++;
+//	}
 	va_end(pf.ap);
-	return (0);
+	return (pf.printed);
 }
 
+void	test_handler(void)
+{
+	printf(" - test\n");
+	return ;
+}
 
 

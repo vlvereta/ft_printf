@@ -17,13 +17,33 @@
 # include <stdlib.h>
 # include <stdarg.h>
 
-typedef struct	s_pit
+typedef void (*type_handler)();
+
+typedef struct		s_info
 {
-    char		*specifier;
-	va_list 	ap;
+	va_list			ap;
+	const char		*types;
+	type_handler 	type_handlers[23];
+	struct s_flags	*cur_flags;
+	int				printed;
+}					t_info;
 
-}				t_pit;
+typedef struct		s_flags
+{
+	int				width;
+	int				prec;
+	int				left;
+	int				sign;
+	int				space;
+	int				hash;
+	int				zero;
+}					t_flags;
 
-int				ft_printf(const char *format, ...);
+int					ft_printf(const char *format, ...);
+void				start_initialization(t_info *pf);
+void				flags_init(t_flags *flags);
+void				handlers_init(type_handler *type_handlers);
 
+
+void	test_handler(void);
 #endif
