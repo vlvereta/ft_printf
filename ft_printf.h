@@ -13,20 +13,14 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
+# include "libft.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
 
-typedef void (*type_handler)();
+# define TYPES 23
 
-typedef struct		s_info
-{
-	va_list			ap;
-	const char		*types;
-	type_handler 	type_handlers[23];
-	struct s_flags	*cur_flags;
-	int				printed;
-}					t_info;
+# include <stdio.h> // delete later
 
 typedef struct		s_flags
 {
@@ -37,13 +31,36 @@ typedef struct		s_flags
 	int				space;
 	int				hash;
 	int				zero;
+	int 			l;
+	int 			ll;
+	int 			h;
+	int 			hh;
+	int 			j;
+	int 			z;
+	int 			t;
+	int 			high_l;
 }					t_flags;
 
+typedef void		(*type_handler)(va_list *, t_flags *);
+
+typedef struct		s_info
+{
+	va_list			ap;
+	const char		*types;
+	type_handler 	type_handlers[TYPES];
+	struct s_flags	*cur_flags;
+	char 			*output;
+	int				outlen;
+}					t_info;
+
 int					ft_printf(const char *format, ...);
-void				start_initialization(t_info *pf);
-void				flags_init(t_flags *flags);
+int					start_initialization(t_info *p);
 void				handlers_init(type_handler *type_handlers);
+int					read_format(char **format, t_info *p);
+int					check_mods(char **format, t_info *p);
+
+void	type_low_d(va_list *ap, t_flags *flags);
 
 
-void	test_handler(void);
+void				cleaning(t_info *p);
 #endif

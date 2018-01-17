@@ -12,33 +12,31 @@
 
 #include "ft_printf.h"
 
-void	start_initialization(t_info *pf)
+int		start_initialization(t_info *p)
 {
-	pf->types = "sSpdDioOuUxXcCeEfFgGaAn";
-	pf->cur_flags = (t_flags *)malloc(sizeof(t_flags));
-	flags_init(pf->cur_flags);
-	handlers_init(pf->type_handlers);
-	pf->printed = 0;
-}
+	ft_bzero(p, sizeof(t_info));
 
-void	flags_init(t_flags *flags)
-{
-	flags->hash = 0;
-	flags->left = 0;
-	flags->prec = 0;
-	flags->sign = 0;
-	flags->zero = 0;
-	flags->space = 0;
-	flags->width = 0;
+	// must be freed at the end
+	if (!(p->cur_flags = (t_flags *)malloc(sizeof(t_flags))))
+		return (0);
+	ft_bzero(p->cur_flags, sizeof(t_flags));
+
+	// must be freed at the end
+	if (!(p->output = (char *)malloc(sizeof(char))))
+		return (0);
+	*(p->output) = '\0';
+	p->types = "aAcCdDeEfFgGinoOpsSuUxX";
+	handlers_init(p->type_handlers);
+	return (1);
 }
 
 void	handlers_init(type_handler *type_handlers)
 {
-	type_handlers[0] = &test_handler;
+	type_handlers[0] = NULL;
 	type_handlers[1] = NULL;
 	type_handlers[2] = NULL;
 	type_handlers[3] = NULL;
-	type_handlers[4] = NULL;
+	type_handlers[4] = &type_low_d;
 	type_handlers[5] = NULL;
 	type_handlers[6] = NULL;
 	type_handlers[7] = NULL;
@@ -57,4 +55,12 @@ void	handlers_init(type_handler *type_handlers)
 	type_handlers[20] = NULL;
 	type_handlers[21] = NULL;
 	type_handlers[22] = NULL;
+}
+
+void	cleaning(t_info *p)
+{
+	if (p->cur_flags)
+		free(p->cur_flags);
+	if (p->output)
+		free(p->output);
 }
