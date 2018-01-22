@@ -34,9 +34,9 @@ void	handlers_init(type_handler *type_handlers)
 {
 	type_handlers[0] = NULL;
 	type_handlers[1] = NULL;
-	type_handlers[2] = NULL;
-	type_handlers[3] = NULL;
-	type_handlers[4] = &type_low_d;
+	type_handlers[2] = &type_low_c;
+	type_handlers[3] = &type_high_c;
+	type_handlers[4] = &type_low_di;
 	type_handlers[5] = NULL;
 	type_handlers[6] = NULL;
 	type_handlers[7] = NULL;
@@ -44,17 +44,17 @@ void	handlers_init(type_handler *type_handlers)
 	type_handlers[9] = NULL;
 	type_handlers[10] = NULL;
 	type_handlers[11] = NULL;
-	type_handlers[12] = NULL;
+	type_handlers[12] = &type_low_di;
 	type_handlers[13] = NULL;
-	type_handlers[14] = NULL;
+	type_handlers[14] = &type_low_o;
 	type_handlers[15] = NULL;
 	type_handlers[16] = NULL;
-	type_handlers[17] = NULL;
+	type_handlers[17] = &type_low_s;
 	type_handlers[18] = NULL;
-	type_handlers[19] = NULL;
+	type_handlers[19] = type_low_u;
 	type_handlers[20] = NULL;
-	type_handlers[21] = NULL;
-	type_handlers[22] = NULL;
+	type_handlers[21] = &type_low_x;
+	type_handlers[22] = &type_high_x;
 }
 
 void	cleaning(t_info *p)

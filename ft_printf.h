@@ -37,11 +37,10 @@ typedef struct		s_flags
 	int 			hh;
 	int 			j;
 	int 			z;
-	int 			t;
 	int 			high_l;
 }					t_flags;
 
-typedef void		(*type_handler)(va_list *, t_flags *);
+typedef void		(*type_handler)(void *);
 
 typedef struct		s_info
 {
@@ -58,9 +57,23 @@ int					start_initialization(t_info *p);
 void				handlers_init(type_handler *type_handlers);
 int					read_format(char **format, t_info *p);
 int					check_mods(char **format, t_info *p);
+void				check_precision(char **format, t_info *p);
+int					check_size(char **format, t_info *p);
 
-void	type_low_d(va_list *ap, t_flags *flags);
+void				type_low_c(void *info);
+void				type_high_c(void *info);
+void				type_low_di(void *info);
+void				type_low_o(void *info);
+void				type_low_s(void *info);
+void				type_high_s(void *info);
+void				type_low_u(void *info);
+void				type_low_x(void *info);
+void				type_high_x(void *info);
 
+unsigned long long	to_unsigned(t_info *p);
+char				*llu_base(unsigned long long value, int base);
+void				char_to_output(t_info *p, char c);
+void				string_to_output(t_info *p, char *s);
 
 void				cleaning(t_info *p);
 #endif

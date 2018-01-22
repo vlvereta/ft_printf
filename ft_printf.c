@@ -24,23 +24,22 @@ int		ft_printf(const char *format, ...)
 		if (*format == '%')
 		{
 			if (*(++format) == '%')
-				ft_putchar('%');
+				char_to_output(&p, '%');
 			else if ((t = read_format((char **)(&format), &p)) != -1)
-				p.type_handlers[t](&p.ap, p.cur_flags);
+				p.type_handlers[t](&p);
 			else
 				continue ;
 		}
 		else
-			write(1, format, 1);
+			char_to_output(&p, *format);
 		format++;
 	}
+	write(1, p.output, p.outlen);
 	va_end(p.ap);
 	cleaning(&p);
 	return (p.outlen);
 }
 
-/* read_format: read flags and other mods while correct type specifier (return i-th)
- * or end of the line (return -1) will be finded */
 int		read_format(char **format, t_info *p)
 {
 	int 	i;
@@ -53,15 +52,15 @@ int		read_format(char **format, t_info *p)
 			if (**format == p->types[i++])
 				return (--i);
 		if (**format == '-')
-			p->cur_flags->left++;
+			p->cur_flags->left = 1;
 		else if (**format == '+')
-			p->cur_flags->sign++;
+			p->cur_flags->sign = 1;
 		else if (**format == ' ')
-			p->cur_flags->space++;
+			p->cur_flags->space = 1;
 		else if (**format == '#')
-			p->cur_flags->hash++;
+			p->cur_flags->hash = 1;
 		else if (**format == '0')
-			p->cur_flags->zero++;
+			p->cur_flags->zero = 1;
 		else
 			if (!check_mods(format, p))
 				break ;
@@ -72,15 +71,61 @@ int		read_format(char **format, t_info *p)
 
 int 	check_mods(char **format, t_info *p)
 {
-	return (0);
+	if (ft_isdigit(**format))
+	{
+		p->cur_flags->width = ft_atoi(*format);
+		while (ft_isdigit(**format))
+			(*format)++;
+		(*format)--;
+	}
+	else if (**format == '*')
+		p->cur_flags->width = va_arg(p->ap, int);
+	else if (**format == '.')
+		check_precision(format, p);
+	else
+		return (check_size(format, p) ? 1 : 0);
+	return (1);
 }
 
-void	type_low_d(va_list *ap, t_flags *flags)
+void	check_precision(char **format, t_info *p)
 {
-	int 	num;
-	char	*s_num;
+	if (ft_isdigit(*(*format + 1)))
+	{
+		p->cur_flags->prec = ft_atoi(++(*format));
+		while (ft_isdigit(**format))
+			(*format)++;
+		(*format)--;
+	}
+	else if (*(*format + 1) == '*')
+	{
+		(*format)++;
+		p->cur_flags->prec = va_arg(p->ap, int);
+	}
+}
 
-	num = va_arg(*ap, int);
-	s_num = ft_itoa(num);
-	ft_putstr(s_num);
+int 	check_size(char **format, t_info *p)
+{
+	if (**format == 'l' && *(*format + 1) == 'l')
+	{
+		(*format)++;
+		p->cur_flags->ll = 1;
+	}
+	else if (**format == 'l')
+		p->cur_flags->l = 1;
+	else if (**format == 'h' && *(*format + 1) == 'h')
+	{
+		(*format)++;
+		p->cur_flags->hh = 1;
+	}
+	else if (**format == 'h')
+		p->cur_flags->h = 1;
+	else if (**format == 'j')
+		p->cur_flags->j = 1;
+	else if (**format == 'z')
+		p->cur_flags->z = 1;
+	else if (**format == 'L')
+		p->cur_flags->high_l = 1;
+	else
+		return (0);
+	return (1);
 }
