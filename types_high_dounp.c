@@ -45,7 +45,7 @@ void	type_low_p(void	*info)
 	void	*ptr;
 
 	p = (t_info *)info;
-	if (!(ptr = va_arg(p->ap, size_t)))
+	if (!(ptr = va_arg(p->ap, void *)))
 		return ;
 	char_to_output(p, '0');
 	char_to_output(p, 'x');
@@ -58,7 +58,7 @@ void	type_low_n(void	*info)
 	void	*ptr;
 
 	p = (t_info *)info;
-	if (!(ptr = va_arg(p->ap, size_t)))
+	if (!(ptr = va_arg(p->ap, void *)))
 		return ;
 	if (p->cur_flags->l)
 		*((long *)ptr) = p->outlen;
