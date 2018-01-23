@@ -20,8 +20,6 @@
 
 # define TYPES 23
 
-# include <stdio.h> // delete later
-
 typedef struct		s_flags
 {
 	int				width;
@@ -31,30 +29,30 @@ typedef struct		s_flags
 	int				space;
 	int				hash;
 	int				zero;
-	int 			l;
-	int 			ll;
-	int 			h;
-	int 			hh;
-	int 			j;
-	int 			z;
-	int 			high_l;
+	int				l;
+	int				ll;
+	int				h;
+	int				hh;
+	int				j;
+	int				z;
+	int				high_l;
 }					t_flags;
 
-typedef void		(*type_handler)(void *);
+typedef void		(*t_handler)(void *);
 
 typedef struct		s_info
 {
 	va_list			ap;
 	const char		*types;
-	type_handler 	type_handlers[TYPES];
+	t_handler		type_handlers[TYPES];
 	struct s_flags	*cur_flags;
-	char 			*output;
+	char			*output;
 	int				outlen;
 }					t_info;
 
 int					ft_printf(const char *format, ...);
 int					start_initialization(t_info *p);
-void				handlers_init(type_handler *type_handlers);
+void				handlers_init(t_handler *type_handlers);
 int					read_format(char **format, t_info *p);
 int					check_mods(char **format, t_info *p);
 void				check_precision(char **format, t_info *p);

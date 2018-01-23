@@ -15,13 +15,9 @@
 int		start_initialization(t_info *p)
 {
 	ft_bzero(p, sizeof(t_info));
-
-	// must be freed at the end
 	if (!(p->cur_flags = (t_flags *)malloc(sizeof(t_flags))))
 		return (0);
 	ft_bzero(p->cur_flags, sizeof(t_flags));
-
-	// must be freed at the end
 	if (!(p->output = (char *)malloc(sizeof(char))))
 		return (0);
 	*(p->output) = '\0';
@@ -30,7 +26,7 @@ int		start_initialization(t_info *p)
 	return (1);
 }
 
-void	handlers_init(type_handler *type_handlers)
+void	handlers_init(t_handler *type_handlers)
 {
 	type_handlers[0] = NULL;
 	type_handlers[1] = NULL;

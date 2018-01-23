@@ -12,10 +12,10 @@
 
 #include "ft_printf.h"
 
-void	char_to_output(t_info *p, char c)
+void				char_to_output(t_info *p, char c)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	*temp;
 	size_t	new_len;
 
@@ -33,49 +33,52 @@ void	char_to_output(t_info *p, char c)
 	}
 }
 
-void	string_to_output(t_info *p, char *s)
+void				string_to_output(t_info *p, char *s)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	*temp;
 	size_t	new_len;
 
-	new_len = ft_strlen(p->output) + ft_strlen(s);
-	if ((temp = ft_strnew(new_len)))
+	if (s)
 	{
-		i = 0;
-		j = 0;
-		while (p->output[i])
-			temp[j++] = p->output[i++];
-		free(p->output);
-		i = 0;
-		while (s[i])
-			temp[j++] = s[i++];
-		free(s);
-		p->output = temp;
-		p->outlen = (int)new_len;
+		new_len = ft_strlen(p->output) + ft_strlen(s);
+		if ((temp = ft_strnew(new_len)))
+		{
+			i = 0;
+			j = 0;
+			while (p->output[i])
+				temp[j++] = p->output[i++];
+			free(p->output);
+			i = 0;
+			while (s[i])
+				temp[j++] = s[i++];
+			free(s);
+			p->output = temp;
+			p->outlen = (int)new_len;
+		}
 	}
 }
 
 unsigned long long	to_unsigned(t_info *p)
 {
 	if (p->cur_flags->l)
-		return(va_arg(p->ap, unsigned long));
+		return (va_arg(p->ap, unsigned long));
 	else if (p->cur_flags->ll)
-		return(va_arg(p->ap, unsigned long long));
+		return (va_arg(p->ap, unsigned long long));
 	else if (p->cur_flags->h)
-		return((unsigned short)va_arg(p->ap, int));
+		return ((unsigned short)va_arg(p->ap, int));
 	else if (p->cur_flags->hh)
-		return((unsigned char)va_arg(p->ap, int));
+		return ((unsigned char)va_arg(p->ap, int));
 	else if (p->cur_flags->j)
-		return(va_arg(p->ap, uintmax_t));
+		return (va_arg(p->ap, uintmax_t));
 	else if (p->cur_flags->z)
-		return(va_arg(p->ap, size_t));
+		return (va_arg(p->ap, size_t));
 	else
-		return(va_arg(p->ap, unsigned int));
+		return (va_arg(p->ap, unsigned int));
 }
 
-char	*llu_base(unsigned long long value, int base)
+char				*llu_base(unsigned long long value, int base)
 {
 	int					size;
 	char				*result;

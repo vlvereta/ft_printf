@@ -14,7 +14,7 @@
 
 int		ft_printf(const char *format, ...)
 {
-	int 	t;
+	int		t;
 	t_info	p;
 
 	start_initialization(&p);
@@ -42,7 +42,7 @@ int		ft_printf(const char *format, ...)
 
 int		read_format(char **format, t_info *p)
 {
-	int 	i;
+	int		i;
 
 	ft_bzero(p->cur_flags, sizeof(t_flags));
 	while (**format)
@@ -61,15 +61,14 @@ int		read_format(char **format, t_info *p)
 			p->cur_flags->hash = 1;
 		else if (**format == '0')
 			p->cur_flags->zero = 1;
-		else
-			if (!check_mods(format, p))
-				break ;
+		else if (!check_mods(format, p))
+			break ;
 		(*format)++;
 	}
 	return (-1);
 }
 
-int 	check_mods(char **format, t_info *p)
+int		check_mods(char **format, t_info *p)
 {
 	if (ft_isdigit(**format))
 	{
@@ -103,7 +102,7 @@ void	check_precision(char **format, t_info *p)
 	}
 }
 
-int 	check_size(char **format, t_info *p)
+int		check_size(char **format, t_info *p)
 {
 	if (**format == 'l' && *(*format + 1) == 'l')
 	{

@@ -67,12 +67,12 @@ void	type_low_x(void *info)
 
 void	type_high_x(void *info)
 {
-	int i;
-	char *t;
-	t_info *p;
-	unsigned long long num;
+	int					i;
+	char				*t;
+	t_info				*p;
+	unsigned long long	num;
 
-	p = (t_info *) info;
+	p = (t_info *)info;
 	num = to_unsigned(p);
 	t = llu_base(num, 16);
 	i = 0;

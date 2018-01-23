@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-char	*write_array(long long number, int base, int size, int sign)
+char	*write_array(unsigned long long number, int base, int size, int sign)
 {
-	int 	temp;
+	int		temp;
 	char	*array;
 
 	if (!(array = (char *)malloc(sizeof(char) * (size + 1))))
@@ -35,9 +35,9 @@ char	*write_array(long long number, int base, int size, int sign)
 
 char	*ft_itoa_base(long long value, int base)
 {
-	int 		sign;
-	int 		size;
-	long long	number;
+	int					sign;
+	int					size;
+	unsigned long long	number;
 
 	sign = (value < 0 ? 1 : 0);
 	size = (value < 0 || !value ? 1 : 0);

@@ -18,7 +18,7 @@ void	type_high_d(void *info)
 
 	p = (t_info *)info;
 	p->cur_flags->l = 1;
-	type_low_di(info);
+	type_low_di(p);
 }
 
 void	type_high_o(void *info)
@@ -27,7 +27,7 @@ void	type_high_o(void *info)
 
 	p = (t_info *)info;
 	p->cur_flags->l = 1;
-	type_low_o(info);
+	type_low_o(p);
 }
 
 void	type_high_u(void *info)
@@ -36,30 +36,28 @@ void	type_high_u(void *info)
 
 	p = (t_info *)info;
 	p->cur_flags->l = 1;
-	type_low_u(info);
+	type_low_u(p);
 }
 
-void	type_low_p(void	*info)
+void	type_low_p(void *info)
 {
 	t_info	*p;
 	void	*ptr;
 
 	p = (t_info *)info;
-	if (!(ptr = va_arg(p->ap, void *)))
-		return ;
+	ptr = va_arg(p->ap, void *);
 	char_to_output(p, '0');
 	char_to_output(p, 'x');
 	string_to_output(p, llu_base((unsigned long long)ptr, 16));
 }
 
-void	type_low_n(void	*info)
+void	type_low_n(void *info)
 {
 	t_info	*p;
 	void	*ptr;
 
 	p = (t_info *)info;
-	if (!(ptr = va_arg(p->ap, void *)))
-		return ;
+	ptr = va_arg(p->ap, void *);
 	if (p->cur_flags->l)
 		*((long *)ptr) = p->outlen;
 	else if (p->cur_flags->ll)
