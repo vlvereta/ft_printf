@@ -50,6 +50,26 @@ void	type_high_c(void *info)
 	p = (t_info *)info;
 	c = va_arg(p->ap, wchar_t);
 
+	if (c < 128)
+		ft_putchar(c);
+	if (c > 127 && c < 2048)
+	{
+		ft_putchar((c >> 6) + 192);
+		ft_putchar((c & 63) + 128);
+	}
+	if (c > 2047 && c < 65536)
+	{
+		ft_putchar((c >> 12) + 224);
+		ft_putchar(((c >> 6) & 63) + 128);
+		ft_putchar((c & 63) + 128);
+	}
+	if (c > 65535 && c < 2097152)
+	{
+		ft_putchar((c >> 18) + 240);
+		ft_putchar(((c >> 12) & 63) + 128);
+		ft_putchar(((c >> 6) & 63) + 128);
+		ft_putchar((c & 63) + 128);
+	}
 }
 
 void	type_high_s(void *info)

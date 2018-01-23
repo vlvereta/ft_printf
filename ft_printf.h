@@ -63,10 +63,15 @@ int					check_size(char **format, t_info *p);
 void				type_low_c(void *info);
 void				type_high_c(void *info);
 void				type_low_di(void *info);
+void				type_high_d(void *info);
+void				type_low_n(void	*info);
 void				type_low_o(void *info);
+void				type_high_o(void *info);
+void				type_low_p(void	*info);
 void				type_low_s(void *info);
 void				type_high_s(void *info);
 void				type_low_u(void *info);
+void				type_high_u(void *info);
 void				type_low_x(void *info);
 void				type_high_x(void *info);
 

@@ -37,7 +37,7 @@ void	handlers_init(type_handler *type_handlers)
 	type_handlers[2] = &type_low_c;
 	type_handlers[3] = &type_high_c;
 	type_handlers[4] = &type_low_di;
-	type_handlers[5] = NULL;
+	type_handlers[5] = &type_high_d;
 	type_handlers[6] = NULL;
 	type_handlers[7] = NULL;
 	type_handlers[8] = NULL;
@@ -45,14 +45,14 @@ void	handlers_init(type_handler *type_handlers)
 	type_handlers[10] = NULL;
 	type_handlers[11] = NULL;
 	type_handlers[12] = &type_low_di;
-	type_handlers[13] = NULL;
+	type_handlers[13] = &type_low_n;
 	type_handlers[14] = &type_low_o;
-	type_handlers[15] = NULL;
-	type_handlers[16] = NULL;
+	type_handlers[15] = &type_high_o;
+	type_handlers[16] = &type_low_p;
 	type_handlers[17] = &type_low_s;
 	type_handlers[18] = NULL;
-	type_handlers[19] = type_low_u;
-	type_handlers[20] = NULL;
+	type_handlers[19] = &type_low_u;
+	type_handlers[20] = &type_high_u;
 	type_handlers[21] = &type_low_x;
 	type_handlers[22] = &type_high_x;
 }
