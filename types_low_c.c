@@ -46,14 +46,32 @@ void	type_low_s(void *info)
 
 void	type_high_c(void *info)
 {
-	wchar_t	c;
 	t_info	*p;
+	wchar_t	c;
+	char	*unichar;
 
 	p = (t_info *)info;
 	c = va_arg(p->ap, wchar_t);
+	if ((unichar = wchar_encoder((unsigned int)c)))
+		string_to_output(p, unichar);
 }
 
 void	type_high_s(void *info)
 {
-	return ;
+	t_info	*p;
+	wchar_t *s;
+	char	*unichar;
+
+	p = (t_info *)info;
+	if ((s = va_arg(p->ap, wchar_t *)))
+	{
+		while (*s)
+		{
+			if ((unichar = wchar_encoder((unsigned int)*s)))
+				string_to_output(p, unichar);
+			s++;
+		}
+	}
+	else
+		string_to_output(p, ft_strdup("(null)"));
 }

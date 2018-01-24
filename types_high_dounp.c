@@ -58,18 +58,18 @@ void	type_low_n(void *info)
 
 	p = (t_info *)info;
 	ptr = va_arg(p->ap, void *);
-	if (p->cur_flags->l)
-		*((long *)ptr) = p->outlen;
+	if (p->cur_flags->z)
+		*((ssize_t *)ptr) = p->outlen;
+	else if (p->cur_flags->j)
+		*((intmax_t *)ptr) = p->outlen;
 	else if (p->cur_flags->ll)
 		*((long long *)ptr) = p->outlen;
+	else if (p->cur_flags->l)
+		*((long *)ptr) = p->outlen;
 	else if (p->cur_flags->h)
 		*((short *)ptr) = (short)p->outlen;
 	else if (p->cur_flags->hh)
 		*((char *)ptr) = (char)p->outlen;
-	else if (p->cur_flags->j)
-		*((intmax_t *)ptr) = p->outlen;
-	else if (p->cur_flags->z)
-		*((ssize_t *)ptr) = p->outlen;
 	else
 		*((int *)ptr) = p->outlen;
 }

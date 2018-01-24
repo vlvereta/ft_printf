@@ -46,7 +46,7 @@ void	handlers_init(t_handler *type_handlers)
 	type_handlers[15] = &type_high_o;
 	type_handlers[16] = &type_low_p;
 	type_handlers[17] = &type_low_s;
-	type_handlers[18] = NULL;
+	type_handlers[18] = &type_high_s;
 	type_handlers[19] = &type_low_u;
 	type_handlers[20] = &type_high_u;
 	type_handlers[21] = &type_low_x;

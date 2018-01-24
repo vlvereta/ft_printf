@@ -34,17 +34,18 @@ OBJ =	ft_printf.o \
 		./libft/ft_memset.o \
 		./libft/ft_strcpy.o
 
+LIBFT = make -C libft/
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	$(LIBFT)
 	ar rc $(NAME) $(OBJ)
 
 %.o: %.c
-	make -C libft/
 	$(CC) -c $< -o $@
 
 clean:
-	make -C libft/ clean
 	rm -f $(OBJ)
 
 fclean: clean

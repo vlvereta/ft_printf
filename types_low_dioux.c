@@ -18,18 +18,18 @@ void	type_low_di(void *info)
 	long long	num;
 
 	p = (t_info *)info;
-	if (p->cur_flags->l)
-		num = va_arg(p->ap, long);
+	if (p->cur_flags->z)
+		num = va_arg(p->ap, ssize_t);
+	else if (p->cur_flags->j)
+		num = va_arg(p->ap, intmax_t);
 	else if (p->cur_flags->ll)
 		num = va_arg(p->ap, long long);
+	else if (p->cur_flags->l)
+		num = va_arg(p->ap, long);
 	else if (p->cur_flags->h)
 		num = (short)va_arg(p->ap, int);
 	else if (p->cur_flags->hh)
 		num = (char)va_arg(p->ap, int);
-	else if (p->cur_flags->j)
-		num = va_arg(p->ap, intmax_t);
-	else if (p->cur_flags->z)
-		num = va_arg(p->ap, ssize_t);
 	else
 		num = va_arg(p->ap, int);
 	string_to_output(p, ft_itoa_base(num, 10));

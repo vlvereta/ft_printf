@@ -20,6 +20,8 @@
 
 # define TYPES 23
 
+#include <stdio.h>
+
 typedef struct		s_flags
 {
 	int				width;
@@ -57,6 +59,9 @@ int					read_format(char **format, t_info *p);
 int					check_mods(char **format, t_info *p);
 void				check_precision(char **format, t_info *p);
 int					check_size(char **format, t_info *p);
+
+char				*wchar_encoder(unsigned int c);
+char				*byte_to_bits(unsigned char octet);
 
 void				type_low_c(void *info);
 void				type_high_c(void *info);
