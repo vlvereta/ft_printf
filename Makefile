@@ -46,6 +46,7 @@ $(NAME): $(OBJ)
 	$(CC) -c $< -o $@
 
 clean:
+	make -C libft/ clean
 	rm -f $(OBJ)
 
 fclean: clean
