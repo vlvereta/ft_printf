@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extra.c                                            :+:      :+:    :+:   */
+/*   extra_functions.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,33 +12,11 @@
 
 #include "ft_printf.h"
 
-void				char_to_output(t_info *p, char c)
-{
-	int		i;
-	int		j;
-	char	*temp;
-	size_t	new_len;
-
-	new_len = (size_t)p->outlen + 1;
-	if ((temp = ft_strnew(new_len)))
-	{
-		i = 0;
-		j = 0;
-		while (p->output[i])
-			temp[j++] = p->output[i++];
-		temp[j] = c;
-		free(p->output);
-		p->output = temp;
-		p->outlen = (int)new_len;
-	}
-}
-
-char				*wchar_encoder(unsigned int c)
+char				*wchar_encoder(unsigned int c, char **unichar)
 {
 	char	*wc;
 
-	if (!(wc = (char *)malloc(sizeof(char) * 5)))
-		return (NULL);
+	wc = *unichar;
 	ft_bzero(wc, sizeof(char) * 5);
 	if (c < 128)
 		wc[0] = c;
@@ -63,12 +41,33 @@ char				*wchar_encoder(unsigned int c)
 	return (wc);
 }
 
+void				char_to_output(t_info *p, char c)
+{
+	char			*temp;
+	unsigned long	i;
+	unsigned long	j;
+	unsigned long	new_len;
+
+	new_len = p->outlen + 1;
+	if ((temp = ft_strnew(new_len)))
+	{
+		i = 0;
+		j = 0;
+		while (i < p->outlen)
+			temp[j++] = p->output[i++];
+		temp[j] = c;
+		free(p->output);
+		p->output = temp;
+		p->outlen = new_len;
+	}
+}
+
 void				string_to_output(t_info *p, char *s)
 {
-	int		i;
-	int		j;
-	char	*temp;
-	size_t	new_len;
+	char			*temp;
+	unsigned long	i;
+	unsigned long	j;
+	unsigned long	new_len;
 
 	if (s && *s)
 	{
@@ -77,39 +76,17 @@ void				string_to_output(t_info *p, char *s)
 		{
 			i = 0;
 			j = 0;
-			while (p->output[i])
+			while (j < p->outlen)
 				temp[j++] = p->output[i++];
 			free(p->output);
 			i = 0;
-			while (s[i])
+			while (j < new_len)
 				temp[j++] = s[i++];
 			free(s);
 			p->output = temp;
-			p->outlen = (int)new_len;
+			p->outlen = new_len;
 		}
 	}
-}
-
-char				*byte_to_bits(unsigned char octet)
-{
-	int 	size;
-	char	*bits;
-
-	size = 8;
-	if (!(bits = (char *)malloc(sizeof(char) * (size + 1))))
-		return (NULL);
-	bits[size--] = '\0';
-	while (size >= 0)
-	{
-		if (octet)
-		{
-			bits[size--] = octet % 2 + '0';
-			octet /= 2;
-		}
-		else
-			bits[size--] = '0';
-	}
-	return (bits);
 }
 
 unsigned long long	to_unsigned(t_info *p)

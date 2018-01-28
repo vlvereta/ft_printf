@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnew.c                                        :+:      :+:    :+:   */
+/*   ft_byte_to_bits.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/26 14:45:56 by vlvereta          #+#    #+#             */
-/*   Updated: 2017/10/26 14:48:39 by vlvereta         ###   ########.fr       */
+/*   Created: 2018/01/25 12:47:56 by vlvereta          #+#    #+#             */
+/*   Updated: 2018/01/25 12:53:41 by vlvereta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <stdlib.h>
 
-char	*ft_strnew(size_t size)
+char	*byte_to_bits(unsigned char octet)
 {
-	char	*ptr;
+	int		size;
+	char	*bits;
 
-	size += 1;
-	if ((ptr = (char *)malloc(sizeof(char) * size)))
-		ft_bzero(ptr, size);
-	else
+	size = 8;
+	if (!(bits = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
-	return (ptr);
+	bits[size--] = '\0';
+	while (size >= 0)
+	{
+		if (octet)
+		{
+			bits[size--] = octet % 2 + '0';
+			octet /= 2;
+		}
+		else
+			bits[size--] = '0';
+	}
+	return (bits);
 }

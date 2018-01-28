@@ -34,7 +34,7 @@ int		ft_printf(const char *format, ...)
 			char_to_output(&p, *format);
 		format++;
 	}
-	write(1, p.output, p.outlen);
+	write(1, p.output, (size_t)p.outlen);
 	va_end(p.ap);
 	cleaning(&p);
 	return (p.outlen);
@@ -61,14 +61,14 @@ int		read_format(char **format, t_info *p)
 			p->cur_flags->hash = 1;
 		else if (**format == '0')
 			p->cur_flags->zero = 1;
-		else if (!check_mods(format, p))
+		else if (!read_mods(format, p))
 			break ;
 		(*format)++;
 	}
 	return (-1);
 }
 
-int		check_mods(char **format, t_info *p)
+int		read_mods(char **format, t_info *p)
 {
 	if (ft_isdigit(**format))
 	{
@@ -80,13 +80,13 @@ int		check_mods(char **format, t_info *p)
 	else if (**format == '*')
 		p->cur_flags->width = va_arg(p->ap, int);
 	else if (**format == '.')
-		check_precision(format, p);
+		read_precision(format, p);
 	else
-		return (check_size(format, p) ? 1 : 0);
+		return (read_size(format, p) ? 1 : 0);
 	return (1);
 }
 
-void	check_precision(char **format, t_info *p)
+void	read_precision(char **format, t_info *p)
 {
 	if (ft_isdigit(*(*format + 1)))
 	{
@@ -102,7 +102,7 @@ void	check_precision(char **format, t_info *p)
 	}
 }
 
-int		check_size(char **format, t_info *p)
+int		read_size(char **format, t_info *p)
 {
 	if (**format == 'l' && *(*format + 1) == 'l')
 	{

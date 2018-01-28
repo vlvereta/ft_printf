@@ -52,8 +52,11 @@ void	type_high_c(void *info)
 
 	p = (t_info *)info;
 	c = va_arg(p->ap, wchar_t);
-	if ((unichar = wchar_encoder((unsigned int)c)))
+	if ((unichar = (char *)malloc(sizeof(char) * 5)))
+	{
+		wchar_encoder((unsigned int)c, &unichar);
 		string_to_output(p, unichar);
+	}
 }
 
 void	type_high_s(void *info)
@@ -67,9 +70,12 @@ void	type_high_s(void *info)
 	{
 		while (*s)
 		{
-			if ((unichar = wchar_encoder((unsigned int)*s)))
+			if ((unichar = (char *)malloc(sizeof(char) * 5)))
+			{
+				wchar_encoder((unsigned int) *s, &unichar);
 				string_to_output(p, unichar);
-			s++;
+				s++;
+			}
 		}
 	}
 	else

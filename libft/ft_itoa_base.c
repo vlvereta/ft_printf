@@ -17,11 +17,10 @@ char	*write_array(unsigned long long number, int base, int size, int sign)
 	int		temp;
 	char	*array;
 
-	if (!(array = (char *)malloc(sizeof(char) * (size + 1))))
+	if (!(array = ft_strnew(size)))
 		return (NULL);
-	array[size] = '\0';
 	if (sign)
-		array[0] = '-';
+		*array = '-';
 	if (!number)
 		array[--size] = '0';
 	while (number)

@@ -15,11 +15,12 @@ NAME = libftprintf.a
 CC = gcc
 
 OBJ =	ft_printf.o \
-		extra.o \
+		extra_functions.o \
 		struct_init.o \
 		types_high_dounp.o \
 		types_low_c.o \
 		types_low_dioux.o \
+		types_low_di.o \
 		./libft/ft_atoi.o \
 		./libft/ft_bzero.o \
 		./libft/ft_isdigit.o \
@@ -27,6 +28,7 @@ OBJ =	ft_printf.o \
 		./libft/ft_itoa_base.o \
 		./libft/ft_putchar.o \
 		./libft/ft_strdup.o \
+		./libft/ft_strjoin.o \
 		./libft/ft_strlen.o \
 		./libft/ft_strnew.o \
 		./libft/ft_toupper.o \
