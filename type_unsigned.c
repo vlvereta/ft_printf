@@ -1,0 +1,111 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   type_unsigned.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/01/29 14:46:52 by vlvereta          #+#    #+#             */
+/*   Updated: 2018/01/29 14:47:04 by vlvereta         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "ft_printf.h"
+
+void	type_low_u(void *info)
+{
+	t_info				*p;
+	unsigned long long	num;
+	char				*result;
+
+	p = (t_info *)info;
+	num = to_unsigned(p);
+	if (!(result = llu_base(num, 10)))
+		return ;
+	check_flags_for_oux(p->cur_flags, &result, 'u');
+	string_to_output(p, result);
+}
+
+void	type_high_u(void *info)
+{
+	t_info	*p;
+
+	p = (t_info *)info;
+	p->cur_flags->l = 1;
+	type_low_u(p);
+}
+
+void	check_flags_for_oux(t_flags *flags, char **str, char type)
+{
+	int		i;
+	char	*result;
+
+	i = 1;
+	result = *str;
+	result = precision_for_oux(flags, result);
+	if (flags->hash && type == 'o' && ft_atoi(*str))
+	{
+		result = width_for_oux(flags, result, 1);
+		while (result[i] == ' ')
+			i++;
+		result[--i] = '0';
+	}
+	else if (flags->hash && type == 'x' && ft_atoi(*str))
+	{
+		result = width_for_oux(flags, result, 2);
+		while (result[i] == ' ')
+			i++;
+		result[--i] = 'x';
+		result[--i] = '0';
+	}
+	else
+		result = width_for_oux(flags, result, 0);
+	*str = result;
+}
+
+char	*precision_for_oux(t_flags *flags, char *str)
+{
+	int		len;
+	int		new_len;
+	char	*result;
+
+	if ((len = ft_strlen(str)))
+	{
+		if (flags->prec > len && (result = ft_strnew(flags->prec)))
+		{
+			new_len = flags->prec;
+			ft_memset(result, '0', new_len);
+			while (len)
+				result[--new_len] = str[--len];
+			free(str);
+			return (result);
+		}
+	}
+	return (str);
+}
+
+char	*width_for_oux(t_flags *flags, char *str, int extra_len)
+{
+	int		len;
+	int		last;
+	int		new_len;
+	char	*result;
+
+	if ((len = (extra_len ? ft_strlen(str) + extra_len : ft_strlen(str))))
+	{
+		new_len = (flags->width > len ? flags->width : len);
+		if ((new_len > len || extra_len) && (result = ft_strnew(new_len)))
+		{
+			ft_memset(result, ' ', new_len);
+			if (flags->zero && !flags->prec && !flags->left)
+				ft_memset(result, '0', new_len);
+			last = (flags->left ? len : new_len);
+			len = (extra_len ? len - extra_len : len);
+			while (len)
+				result[--last] = str[--len];
+			free(str);
+			return (result);
+		}
+	}
+	return (str);
+}

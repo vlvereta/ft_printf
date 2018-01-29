@@ -18,6 +18,7 @@ int		start_initialization(t_info *p)
 	if (!(p->cur_flags = (t_flags *)malloc(sizeof(t_flags))))
 		return (0);
 	ft_bzero(p->cur_flags, sizeof(t_flags));
+	p->cur_flags->prec = -1;
 	if (!(p->output = (char *)malloc(sizeof(char))))
 		return (0);
 	*(p->output) = '\0';

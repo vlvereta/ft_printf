@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   types_low_di.c                                     :+:      :+:    :+:   */
+/*   type_di.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,10 +11,6 @@
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-/*
-**	function to operate with d and i types specifiers
-*/
 
 void	type_low_di(void *info)
 {
@@ -43,9 +39,18 @@ void	type_low_di(void *info)
 	string_to_output(p, result);
 }
 
+void	type_high_d(void *info)
+{
+	t_info	*p;
+
+	p = (t_info *)info;
+	p->cur_flags->l = 1;
+	type_low_di(p);
+}
+
 void	check_flags_for_di(t_flags *flags, char **str)
 {
-	int 	i;
+	int		i;
 	char	sign;
 	char	*result;
 
@@ -71,8 +76,8 @@ void	check_flags_for_di(t_flags *flags, char **str)
 
 char	*precision_for_di(t_flags *flags, char *str, char sign)
 {
-	int 	len;
-	int 	new_len;
+	int		len;
+	int		new_len;
 	char	*result;
 
 	if ((len = ft_strlen(str)))
@@ -100,7 +105,7 @@ char	*width_for_di(t_flags *flags, char *str, char sign)
 {
 	int		len;
 	int		last;
-	int 	new_len;
+	int		new_len;
 	char	*result;
 
 	if ((len = (sign ? ft_strlen(str) + 1 : ft_strlen(str))))

@@ -12,33 +12,6 @@
 
 #include "ft_printf.h"
 
-void	type_high_d(void *info)
-{
-	t_info	*p;
-
-	p = (t_info *)info;
-	p->cur_flags->l = 1;
-	type_low_di(p);
-}
-
-void	type_high_o(void *info)
-{
-	t_info	*p;
-
-	p = (t_info *)info;
-	p->cur_flags->l = 1;
-	type_low_o(p);
-}
-
-void	type_high_u(void *info)
-{
-	t_info	*p;
-
-	p = (t_info *)info;
-	p->cur_flags->l = 1;
-	type_low_u(p);
-}
-
 void	type_low_p(void *info)
 {
 	t_info	*p;

@@ -45,6 +45,7 @@ int		read_format(char **format, t_info *p)
 	int		i;
 
 	ft_bzero(p->cur_flags, sizeof(t_flags));
+	p->cur_flags->prec = -1;
 	while (**format)
 	{
 		i = 0;
