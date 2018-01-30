@@ -33,7 +33,9 @@ void	type_low_di(void *info)
 		num = (char)va_arg(p->ap, int);
 	else
 		num = va_arg(p->ap, int);
-	if (!(result = ft_itoa_base(num, 10)))
+	if (!num && !p->cur_flags->prec)
+		result = ft_strnew(0);
+	else if (!(result = ft_itoa_base(num, 10)))
 		return ;
 	check_flags_for_di(p->cur_flags, &result);
 	string_to_output(p, result);
@@ -80,23 +82,21 @@ char	*precision_for_di(t_flags *flags, char *str, char sign)
 	int		new_len;
 	char	*result;
 
-	if ((len = ft_strlen(str)))
+	len = ft_strlen(str);
+	if (flags->prec > len && (result = ft_strnew(flags->prec)))
 	{
-		if (flags->prec > len && (result = ft_strnew(flags->prec)))
-		{
-			new_len = flags->prec;
-			ft_memset(result, '0', new_len);
-			while (len)
-				result[--new_len] = str[--len];
-			sign == '-' ? free(--str) : free(str);
-			return (result);
-		}
-		if (sign == '-')
-		{
-			result = ft_strdup(str);
-			free(--str);
-			return (result);
-		}
+		new_len = flags->prec;
+		ft_memset(result, '0', new_len);
+		while (len)
+			result[--new_len] = str[--len];
+		sign == '-' ? free(--str) : free(str);
+		return (result);
+	}
+	if (sign == '-')
+	{
+		result = ft_strdup(str);
+		free(--str);
+		return (result);
 	}
 	return (str);
 }
@@ -108,21 +108,19 @@ char	*width_for_di(t_flags *flags, char *str, char sign)
 	int		new_len;
 	char	*result;
 
-	if ((len = (sign ? ft_strlen(str) + 1 : ft_strlen(str))))
+	len = (sign ? ft_strlen(str) + 1 : ft_strlen(str));
+	new_len = (flags->width > len ? flags->width : len);
+	if ((new_len > len || sign) && (result = ft_strnew(new_len)))
 	{
-		new_len = (flags->width > len ? flags->width : len);
-		if ((new_len > len || sign) && (result = ft_strnew(new_len)))
-		{
-			ft_memset(result, ' ', new_len);
-			if (flags->zero && !flags->prec && !flags->left)
-				ft_memset(result, '0', new_len);
-			last = (flags->left ? len : new_len);
-			len = (sign ? len - 1 : len);
-			while (len)
-				result[--last] = str[--len];
-			free(str);
-			return (result);
-		}
+		ft_memset(result, ' ', new_len);
+		if (flags->zero && flags->prec == -1 && !flags->left)
+			ft_memset(result, '0', new_len);
+		last = (flags->left ? len : new_len);
+		len = (sign ? len - 1 : len);
+		while (len)
+			result[--last] = str[--len];
+		free(str);
+		return (result);
 	}
 	return (str);
 }

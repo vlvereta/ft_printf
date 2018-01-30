@@ -22,7 +22,7 @@ int		start_initialization(t_info *p)
 	if (!(p->output = (char *)malloc(sizeof(char))))
 		return (0);
 	*(p->output) = '\0';
-	p->types = "aAcCdDeEfFgGinoOpsSuUxX";
+	p->types = "aAcCdDeEfFgGinoOpsSuUxX%";
 	handlers_init(p->type_handlers);
 	return (1);
 }
@@ -52,6 +52,7 @@ void	handlers_init(t_handler *type_handlers)
 	type_handlers[20] = &type_high_u;
 	type_handlers[21] = &type_low_x;
 	type_handlers[22] = &type_high_x;
+	type_handlers[23] = &percent_handling;
 }
 
 void	cleaning(t_info *p)

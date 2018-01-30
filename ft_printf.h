@@ -18,7 +18,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 
-# define TYPES 23
+# define TYPES 24
 
 # include <stdio.h>
 
@@ -79,14 +79,14 @@ void				type_low_u(void *info);
 void				type_high_u(void *info);
 void				type_low_x(void *info);
 void				type_high_x(void *info);
+void				percent_handling(void *info);
 
 void				check_flags_for_oux(t_flags *flags, char **str, char type);
 char				*precision_for_oux(t_flags *flags, char *str);
 char				*width_for_oux(t_flags *flags, char *str, int extra_len);
-void				width_for_low_c(t_info *p, char c);
+void				width_for_char(t_info *p, char c);
 char				*precision_for_low_s(t_flags *flags, char *s);
 char				*width_for_low_s(t_flags *flags, char *s);
-
 
 char				*wchar_encoder(unsigned int c, char **unichar);
 void				char_to_output(t_info *p, char c);

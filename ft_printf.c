@@ -23,9 +23,8 @@ int		ft_printf(const char *format, ...)
 	{
 		if (*format == '%')
 		{
-			if (*(++format) == '%')
-				char_to_output(&p, '%');
-			else if ((t = read_format((char **)(&format), &p)) != -1)
+			format++;
+			if ((t = read_format((char **)(&format), &p)) != -1)
 				p.type_handlers[t](&p);
 			else
 				continue ;
@@ -101,6 +100,8 @@ void	read_precision(char **format, t_info *p)
 		(*format)++;
 		p->cur_flags->prec = va_arg(p->ap, int);
 	}
+	else
+		p->cur_flags->prec = 0;
 }
 
 int		read_size(char **format, t_info *p)
@@ -128,4 +129,17 @@ int		read_size(char **format, t_info *p)
 	else
 		return (0);
 	return (1);
+}
+
+void	percent_handling(void *info)
+{
+	char	c;
+	t_info	*p;
+
+	c = '%';
+	p = (t_info *)info;
+	if (p->cur_flags->width > 1)
+		width_for_char(p, c);
+	else
+		char_to_output(p, c);
 }

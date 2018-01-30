@@ -6,7 +6,7 @@
 #    By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/01/23 14:17:49 by vlvereta          #+#    #+#              #
-#    Updated: 2018/01/23 14:26:24 by vlvereta         ###   ########.fr        #
+#    Updated: 2018/01/30 08:46:54 by vlvereta         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,12 @@ CC = gcc
 OBJ =	ft_printf.o \
 		extra_functions.o \
 		struct_init.o \
+		type_di.o \
+		type_pox.o \
+		type_low_cs.o \
+		type_unsigned.o \
 		types_high_dounp.o \
 		types_low_c.o \
-		types_low_dioux.o \
-		types_low_di.o \
 		./libft/ft_atoi.o \
 		./libft/ft_bzero.o \
 		./libft/ft_isdigit.o \

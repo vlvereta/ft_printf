@@ -24,13 +24,13 @@ void	type_low_c(void *info)
 	{
 		c = (char)va_arg(p->ap, int);
 		if (p->cur_flags->width > 1)
-			width_for_low_c(p, c);
+			width_for_char(p, c);
 		else
 			char_to_output(p, c);
 	}
 }
 
-void	width_for_low_c(t_info *p, char c)
+void	width_for_char(t_info *p, char c)
 {
 	char	*result;
 

@@ -12,18 +12,6 @@
 
 #include "ft_printf.h"
 
-void	type_low_p(void *info)
-{
-	t_info	*p;
-	void	*ptr;
-
-	p = (t_info *)info;
-	ptr = va_arg(p->ap, void *);
-	char_to_output(p, '0');
-	char_to_output(p, 'x');
-	string_to_output(p, llu_base((unsigned long long)ptr, 16));
-}
-
 void	type_low_n(void *info)
 {
 	t_info	*p;
