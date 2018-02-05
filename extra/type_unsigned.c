@@ -5,38 +5,36 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/29 14:46:52 by vlvereta          #+#    #+#             */
-/*   Updated: 2018/01/29 14:47:04 by vlvereta         ###   ########.fr       */
+/*   Created: 2018/02/05 13:57:12 by vlvereta          #+#    #+#             */
+/*   Updated: 2018/02/05 13:57:29 by vlvereta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../ft_printf.h"
 
-void	type_low_u(void *info)
+int		type_low_u(void *info)
 {
 	t_info				*p;
 	unsigned long long	num;
 	char				*result;
 
 	p = (t_info *)info;
-//	num = to_unsigned(p);
-//	if (!(result = llu_base(num, 10)))
-//		return ;
 	if (!(num = to_unsigned(p)) && !p->cur_flags->prec)
 		result = ft_strnew(0);
 	else if (!(result = llu_base(num, 10)))
-		return ;
+		return (-1);
 	check_flags_for_oux(p->cur_flags, &result, 'u');
-	string_to_output(p, result);
+	string_to_output(p, result, ft_strlen(result));
+	return (1);
 }
 
-void	type_high_u(void *info)
+int		type_high_u(void *info)
 {
 	t_info	*p;
 
 	p = (t_info *)info;
 	p->cur_flags->l = 1;
-	type_low_u(p);
+	return (type_low_u(p));
 }
 
 void	check_flags_for_oux(t_flags *flags, char **str, char type)
@@ -46,7 +44,7 @@ void	check_flags_for_oux(t_flags *flags, char **str, char type)
 
 	result = *str;
 	result = precision_for_oux(flags, result);
-	if (flags->hash && type == 'o')
+	if (flags->hash && type == 'o' && *result != '0')
 	{
 		i = 1;
 		result = width_for_oux(flags, result, 1);
@@ -98,9 +96,10 @@ char	*width_for_oux(t_flags *flags, char *str, int extra_len)
 	new_len = (flags->width > len ? flags->width : len);
 	if ((new_len > len || extra_len) && (result = ft_strnew(new_len)))
 	{
-		ft_memset(result, ' ', new_len);
 		if (flags->zero && flags->prec == -1 && !flags->left)
 			ft_memset(result, '0', new_len);
+		else
+			ft_memset(result, ' ', new_len);
 		last = (flags->left ? len : new_len);
 		len = (extra_len ? len - extra_len : len);
 		while (len)

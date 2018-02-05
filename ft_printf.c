@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/03 23:15:03 by vlvereta          #+#    #+#             */
-/*   Updated: 2018/01/03 23:18:32 by vlvereta         ###   ########.fr       */
+/*   Created: 2018/02/01 23:15:03 by vlvereta          #+#    #+#             */
+/*   Updated: 2018/02/01 23:18:32 by vlvereta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,40 @@
 
 int		ft_printf(const char *format, ...)
 {
-	int		t;
+	int		i;
 	t_info	p;
 
-	start_initialization(&p);
+	if (!start_initialization(&p))
+		return (-1);
 	va_start(p.ap, format);
 	while (*format)
 	{
 		if (*format == '%')
 		{
 			format++;
-			if ((t = read_format((char **)(&format), &p)) != -1)
-				p.type_handlers[t](&p);
+			if ((i = read_flags((char **)(&format), &p)) != -1)
+				p.type_handlers[i](&p);
 			else
 				continue ;
 		}
 		else
 			char_to_output(&p, *format);
+		flags_to_null(p.cur_flags);
 		format++;
 	}
-	write(1, p.output, (size_t)p.outlen);
+	write(1, p.output, p.outlen);
 	va_end(p.ap);
-	cleaning(&p);
-	return (p.outlen);
+	return (clean_return(p.cur_flags, p.output, 0, p.outlen));
 }
 
-int		read_format(char **format, t_info *p)
+int		read_flags(char **format, t_info *p)
 {
 	int		i;
 
-	ft_bzero(p->cur_flags, sizeof(t_flags));
-	p->cur_flags->prec = -1;
 	while (**format)
 	{
 		i = 0;
-		while (i < TYPES)
+		while (i < AMOUNT)
 			if (**format == p->types[i++])
 				return (--i);
 		if (**format == '-')
@@ -61,14 +60,14 @@ int		read_format(char **format, t_info *p)
 			p->cur_flags->hash = 1;
 		else if (**format == '0')
 			p->cur_flags->zero = 1;
-		else if (!read_mods(format, p))
+		else if (!read_width(format, p))
 			break ;
 		(*format)++;
 	}
 	return (-1);
 }
 
-int		read_mods(char **format, t_info *p)
+int		read_width(char **format, t_info *p)
 {
 	if (ft_isdigit(**format))
 	{
@@ -88,17 +87,20 @@ int		read_mods(char **format, t_info *p)
 
 void	read_precision(char **format, t_info *p)
 {
-	if (ft_isdigit(*(*format + 1)))
+	char	*temp;
+
+	temp = *format + 1;
+	if (ft_isdigit(*temp))
 	{
-		p->cur_flags->prec = ft_atoi(++(*format));
-		while (ft_isdigit(**format))
-			(*format)++;
-		(*format)--;
+		p->cur_flags->prec = ft_atoi(temp);
+		while (ft_isdigit(*temp))
+			temp++;
+		*format = --temp;
 	}
-	else if (*(*format + 1) == '*')
+	else if (*temp == '*')
 	{
-		(*format)++;
 		p->cur_flags->prec = va_arg(p->ap, int);
+		*format = temp;
 	}
 	else
 		p->cur_flags->prec = 0;
@@ -111,35 +113,20 @@ int		read_size(char **format, t_info *p)
 		(*format)++;
 		p->cur_flags->ll = 1;
 	}
-	else if (**format == 'l')
-		p->cur_flags->l = 1;
 	else if (**format == 'h' && *(*format + 1) == 'h')
 	{
 		(*format)++;
 		p->cur_flags->hh = 1;
 	}
+	else if (**format == 'z' || **format == 't')
+		p->cur_flags->z = 1;
+	else if (**format == 'l')
+		p->cur_flags->l = 1;
 	else if (**format == 'h')
 		p->cur_flags->h = 1;
 	else if (**format == 'j')
 		p->cur_flags->j = 1;
-	else if (**format == 'z')
-		p->cur_flags->z = 1;
-	else if (**format == 'L')
-		p->cur_flags->high_l = 1;
 	else
 		return (0);
 	return (1);
-}
-
-void	percent_handling(void *info)
-{
-	char	c;
-	t_info	*p;
-
-	c = '%';
-	p = (t_info *)info;
-	if (p->cur_flags->width > 1)
-		width_for_char(p, c);
-	else
-		char_to_output(p, c);
 }

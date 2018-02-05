@@ -15,14 +15,16 @@ NAME = libftprintf.a
 CC = gcc
 
 OBJ =	ft_printf.o \
-		extra_functions.o \
-		struct_init.o \
-		type_di.o \
-		type_pox.o \
-		type_low_cs.o \
-		type_unsigned.o \
-		types_high_dounp.o \
-		types_low_c.o \
+		./extra/extra_functions.o \
+		./extra/initialization.o \
+		./extra/percent_and_co.o \
+		./extra/type_high_c.o \
+		./extra/type_di.o \
+		./extra/type_pox.o \
+		./extra/type_low_s.o \
+		./extra/type_high_s.o \
+		./extra/type_unsigned.o \
+		\
 		./libft/ft_atoi.o \
 		./libft/ft_bzero.o \
 		./libft/ft_isdigit.o \
@@ -32,7 +34,9 @@ OBJ =	ft_printf.o \
 		./libft/ft_strdup.o \
 		./libft/ft_strjoin.o \
 		./libft/ft_strlen.o \
+		./libft/ft_strncpy.o \
 		./libft/ft_strnew.o \
+		./libft/ft_strsub.o \
 		./libft/ft_toupper.o \
 		./libft/ft_isascii.o \
 		./libft/ft_memset.o \

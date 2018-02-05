@@ -5,89 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/22 09:42:38 by vlvereta          #+#    #+#             */
-/*   Updated: 2018/01/22 09:43:52 by vlvereta         ###   ########.fr       */
+/*   Created: 2018/01/22 12:34:58 by vlvereta          #+#    #+#             */
+/*   Updated: 2018/01/22 12:35:08 by vlvereta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
-
-char				*wchar_encoder(unsigned int c, char **unichar)
-{
-	char	*wc;
-
-	wc = *unichar;
-	ft_bzero(wc, sizeof(char) * 5);
-	if (c < 128)
-		wc[0] = c;
-	else if (c < 2048)
-	{
-		wc[0] = c >> 6 | 0xC0;
-		wc[1] = (c << 26) >> 26 | 0x80;
-	}
-	else if (c < 65536)
-	{
-		wc[0] = ((c >> 12) << 28) >> 28 | 0xE0;
-		wc[1] = ((c >> 6) << 26) >> 26 | 0x80;
-		wc[2] = (c << 26) >> 26 | 0x80;
-	}
-	else
-	{
-		wc[0] = ((c >> 18) << 29) >> 29 | 0xF0;
-		wc[1] = ((c >> 12) << 26) >> 26 | 0x80;
-		wc[2] = ((c >> 6) << 26) >> 26 | 0x80;
-		wc[3] = (c << 26) >> 26 | 0x80;
-	}
-	return (wc);
-}
-
-void				char_to_output(t_info *p, char c)
-{
-	char			*temp;
-	unsigned long	i;
-	unsigned long	j;
-	unsigned long	new_len;
-
-	new_len = p->outlen + 1;
-	if ((temp = ft_strnew(new_len)))
-	{
-		i = 0;
-		j = 0;
-		while (i < p->outlen)
-			temp[j++] = p->output[i++];
-		temp[j] = c;
-		free(p->output);
-		p->output = temp;
-		p->outlen = new_len;
-	}
-}
-
-void				string_to_output(t_info *p, char *s)
-{
-	char			*temp;
-	unsigned long	i;
-	unsigned long	j;
-	unsigned long	new_len;
-
-	if (s && *s)
-	{
-		new_len = p->outlen + ft_strlen(s);
-		if ((temp = ft_strnew(new_len)))
-		{
-			i = 0;
-			j = 0;
-			while (j < p->outlen)
-				temp[j++] = p->output[i++];
-			free(p->output);
-			i = 0;
-			while (j < new_len)
-				temp[j++] = s[i++];
-			free(s);
-			p->output = temp;
-			p->outlen = new_len;
-		}
-	}
-}
+#include "../ft_printf.h"
 
 unsigned long long	to_unsigned(t_info *p)
 {
@@ -133,4 +56,15 @@ char				*llu_base(unsigned long long value, int base)
 		}
 	}
 	return (result);
+}
+
+int					clean_return(void *ptr1, void *ptr2, void *ptr3, int ret)
+{
+	if (ptr1)
+		free(ptr1);
+	if (ptr2)
+		free(ptr2);
+	if (ptr3)
+		free(ptr3);
+	return (ret);
 }
