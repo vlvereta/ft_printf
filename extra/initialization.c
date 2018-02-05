@@ -6,7 +6,7 @@
 /*   By: vlvereta <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/05 14:18:12 by vlvereta          #+#    #+#             */
-/*   Updated: 2018/02/05 14:18:14 by vlvereta         ###   ########.fr       */
+/*   Updated: 2018/02/05 16:09:24 by vlvereta         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	type_handlers_init(t_handler type_handlers[])
 	type_handlers[2] = &type_low_di;
 	type_handlers[3] = &type_high_d;
 	type_handlers[4] = &type_low_di;
-	// type_handlers[5] = &type_n;
+	type_handlers[5] = &type_n;
 	type_handlers[6] = &type_low_o;
 	type_handlers[7] = &type_high_o;
 	type_handlers[8] = &type_p;
