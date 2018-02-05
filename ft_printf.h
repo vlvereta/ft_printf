@@ -47,6 +47,7 @@ typedef struct		s_info
 	t_flags			*cur_flags;
 	char			*output;
 	int				outlen;
+	int				error;
 }					t_info;
 
 int					ft_printf(const char *format, ...);

@@ -69,6 +69,7 @@ int		read_flags(char **format, t_info *p)
 
 int		read_width(char **format, t_info *p)
 {
+	int		t;
 	if (ft_isdigit(**format))
 	{
 		p->cur_flags->width = ft_atoi(*format);
@@ -77,7 +78,15 @@ int		read_width(char **format, t_info *p)
 		(*format)--;
 	}
 	else if (**format == '*')
-		p->cur_flags->width = va_arg(p->ap, int);
+	{
+		if ((t = va_arg(p->ap, int)) < 0)
+		{
+			p->cur_flags->width = -t;
+			p->cur_flags->left = 1;
+		}
+		else
+			p->cur_flags->width = t;
+	}
 	else if (**format == '.')
 		read_precision(format, p);
 	else
@@ -87,6 +96,7 @@ int		read_width(char **format, t_info *p)
 
 void	read_precision(char **format, t_info *p)
 {
+	int		t;
 	char	*temp;
 
 	temp = *format + 1;
@@ -99,7 +109,8 @@ void	read_precision(char **format, t_info *p)
 	}
 	else if (*temp == '*')
 	{
-		p->cur_flags->prec = va_arg(p->ap, int);
+		t = va_arg(p->ap, int);
+		p->cur_flags->prec = t < 0 ? -1 : t;
 		*format = temp;
 	}
 	else
