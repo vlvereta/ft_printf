@@ -37,7 +37,7 @@ int		ft_printf(const char *format, ...)
 	}
 	write(1, p.output, p.outlen);
 	va_end(p.ap);
-	return (clean_return(p.cur_flags, p.output, 0, p.outlen));
+	return (clean_return(p.cur_flags, p.output, 0, !p.error ? p.outlen : -1));
 }
 
 int		read_flags(char **format, t_info *p)
@@ -70,6 +70,7 @@ int		read_flags(char **format, t_info *p)
 int		read_width(char **format, t_info *p)
 {
 	int		t;
+
 	if (ft_isdigit(**format))
 	{
 		p->cur_flags->width = ft_atoi(*format);
@@ -137,6 +138,8 @@ int		read_size(char **format, t_info *p)
 		p->cur_flags->h = 1;
 	else if (**format == 'j')
 		p->cur_flags->j = 1;
+	else if (**format == 'L')
+		p->cur_flags->high_l = 1;
 	else
 		return (0);
 	return (1);

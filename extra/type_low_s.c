@@ -21,9 +21,9 @@ int		type_low_s(void *info)
 	p = (t_info *)info;
 	if (p->cur_flags->l)
 		return (type_high_s(p));
-	if ((s = va_arg(p->ap, char *)))
-		return (string_processing(p, s, ft_strlen(s)));
-	return (string_processing(p, "(null)", 6));
+	if (!(s = va_arg(p->ap, char *)))
+		return (string_processing(p, "(null)", 6));
+	return (string_processing(p, s, ft_strlen(s)));
 }
 
 int		string_processing(t_info *p, char *s, int len)

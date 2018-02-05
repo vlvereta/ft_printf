@@ -68,7 +68,7 @@ void	width_for_char(t_info *p, char c)
 			ft_memset(result, '0', p->cur_flags->width);
 		else
 			ft_memset(result, ' ', p->cur_flags->width);
-		i = p->cur_flags->left ? 0 : p->cur_flags->width - 1;
+		i = p->cur_flags->left && c ? 0 : p->cur_flags->width - 1;
 		result[i] = c;
 		string_to_output(p, result, p->cur_flags->width);
 	}

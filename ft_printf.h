@@ -35,6 +35,7 @@ typedef struct		s_flags
 	int				hh;
 	int				j;
 	int				z;
+	int				high_l;
 }					t_flags;
 
 typedef int			(*t_handler)(void *);
