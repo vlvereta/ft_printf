@@ -24,7 +24,7 @@ OBJ =	ft_printf.o \
 		./extra/type_low_s.o \
 		./extra/type_high_s.o \
 		./extra/type_unsigned.o \
-		\
+		./extra/additional_types_or_flags.o \
 		./libft/ft_atoi.o \
 		./libft/ft_bzero.o \
 		./libft/ft_isdigit.o \
